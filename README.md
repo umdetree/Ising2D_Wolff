@@ -2,6 +2,8 @@
 
 A simple 2D Ising model Monte Carlo simulation program using Wolff algorithm.
 
+This was written by Peng as a class project for Thermodynamics and Statistcal Physics II at Fudan university 
+
 This program does:
 
 - Draws Binder cumulant curves which can be used to find the critical point of 2D Ising model
