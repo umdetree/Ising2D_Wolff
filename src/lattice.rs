@@ -1,4 +1,5 @@
 use libm::exp;
+use plotters::prelude::*;
 use rand::Rng;
 
 #[derive(Debug)]
@@ -100,6 +101,41 @@ impl Ising2D {
             let pos_m = rand::thread_rng().gen_range(0..self._size);
             let pos_n = rand::thread_rng().gen_range(0..self._size);
             self.flip_wolff(pos_m, pos_n);
+        }
+    }
+
+    pub fn wolff_animation(path: &str, size: usize, j: f64, beta: f64, frames: usize) {
+        let root = BitMapBackend::gif(path, (800, 600), 100)
+            .unwrap()
+            .into_drawing_area();
+
+        let mut lat = Ising2D::new(size, j, beta);
+
+        for _ in 0..=frames {
+            root.fill(&BLACK).unwrap();
+
+            let mut chart = ChartBuilder::on(&root)
+                .caption("wolff animation", ("Arial", 50))
+                .build_cartesian_2d(0..size, 0..size)
+                .unwrap();
+
+            chart
+                .draw_series(
+                    (0..size)
+                        .flat_map(move |x| (0..size).map(move |y| (x, y)))
+                        .map(|(x, y)| {
+                            if lat._sites[x][y] == 1 {
+                                Circle::new((x, y), 2, BLACK.filled())
+                            } else {
+                                Circle::new((x, y), 2, RED.filled())
+                            }
+                        })
+                )
+                .unwrap();
+            
+            root.present().unwrap();
+
+            lat.simulate_wolff(1);
         }
     }
 }
