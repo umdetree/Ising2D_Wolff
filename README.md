@@ -13,6 +13,6 @@ To run this program:
   
  Results when `size = 32`, `J = 1`, `beta_start = 0.34`, `beta_end = 0.7`, `mc_times = 100`:
  
- ![u4.png](./images/u4.png)
+ ![u4.bmp](./images/u4.bmp)
  
  ![scaling.png](./images/scaling.png)
