@@ -79,7 +79,6 @@ fn main() {
     println!("");
 
     let mut betas: Vec<f64> = vec![0.0; 100];
-    let mut m_res: Vec<Vec<f64>> = vec![vec![0.0; 100]; 3];
     let mut u_res: Vec<Vec<f64>> = vec![vec![0.0; 100]; 3];
     let sizes: Vec<usize> = vec![size/2, size, size*2];
 
@@ -93,7 +92,6 @@ fn main() {
 
             betas[i] = beta_start + beta_step * i as f64;
 
-            let mut m_tot = 0.0;
             let mut m2_tot = 0.0;
             let mut m4_tot = 0.0;
         
@@ -101,12 +99,10 @@ fn main() {
                 let mut lattice = Ising2D::new(sizes[s], j, betas[i]);
                 lattice.simulate_wolff(sizes[s] * sizes[s]);
                 let m = lattice.get_magnetic_momentum().abs();
-                m_tot += m;
                 m2_tot += m*m;
                 m4_tot += m*m*m*m;
             }
 
-            m_res[s][i] = m_tot / mc_times as f64;
             let m2 = m2_tot / mc_times as f64;
             let m4 = m4_tot / mc_times as f64;
             u_res[s][i] = 1.5 * (1.0 - m4 / (3.0 * m2* m2));
